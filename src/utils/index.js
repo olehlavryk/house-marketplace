@@ -1,0 +1,1 @@
+export const normalizePrice = (price, currency = '$') => `${currency} ${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
