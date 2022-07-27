@@ -6,7 +6,7 @@ import bathtubIcon from '../assets/svg/bathtubIcon.svg';
 import { normalizePrice } from '../utils';
 
 const ListingsItems = ({ listing, id, onDelete }) => {
-
+  console.log(listing)
   return (
     <li className="categoryListing">
       <Link
@@ -14,7 +14,7 @@ const ListingsItems = ({ listing, id, onDelete }) => {
         className="categoryListingLink"
       >
         <img
-          src={listing.imageUrls[0]}
+          src={listing?.imageUrls?.[0] ? listing?.imageUrls?.[0] : listing?.imgUrls?.[0]}
           alt={listing.name}
           className="categoryListingImg"
         />
