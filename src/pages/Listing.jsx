@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react"
+import Spinner from "../components/Spinner";
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import shareIcon from '../assets/svg/shareIcon.svg';
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { getDoc, doc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { db } from '../firebase.config';
-import Spinner from "../components/Spinner";
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { normalizePrice } from '../utils';
-import shareIcon from '../assets/svg/shareIcon.svg';
+import 'swiper/swiper-bundle.css';
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y])
+
 
 const Listing = () => {
   const [listing, setListing] = useState(null);
@@ -41,10 +46,19 @@ const Listing = () => {
   }
 
   if (loading) return <Spinner />
-
+  const images = listing?.imageUrls ? listing?.imageUrls : listing?.imgUrls;
   return (
     <main>
-      {/* Slider */}
+      <Swiper slidesPerView={1} pagination={{ clickable: true }}>
+        {images.map((url, index) => (
+          <SwiperSlide key={index}>
+            <div style={{
+              background: `url(${images[index]}) center no-repeat`,
+              backgroundSize: 'cover'
+            }} className="swiperSlideDiv"></div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
       <div className="shareIconDiv" onClick={onCopyLink}>
         <img src={shareIcon} alt="Share" />
       </div>
