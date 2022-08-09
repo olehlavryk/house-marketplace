@@ -44,9 +44,10 @@ const Listing = () => {
       setShareLinkCopied(false);
     }, 2000)
   }
+  // TODO Remove this temporary fix
+  const images = listing?.imageUrls ? listing?.imageUrls : listing?.imgUrls;
 
   if (loading) return <Spinner />
-  const images = listing?.imageUrls ? listing?.imageUrls : listing?.imgUrls;
   return (
     <main>
       <Swiper slidesPerView={1} pagination={{ clickable: true }}>
@@ -91,8 +92,6 @@ const Listing = () => {
           {listing.parking && <li>Parking spot</li>}
           {listing.furnished && <li>Furnished</li>}
         </ul>
-        <p className="listingLocationTitle">Location</p>
-        {/* Map */}
         {auth.currentUser?.uid !== listing.userRef && (
           <Link
             to={`/contact/${listing.userRef}?listingName=${listing.name}`}
