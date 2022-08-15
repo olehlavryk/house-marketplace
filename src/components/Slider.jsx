@@ -23,7 +23,7 @@ const Slider = () => {
       const q = query(listingsRef, orderBy('timestamp', 'desc'), limit(5));
       const querySnap = await getDocs(q)
 
-      let listings = [];
+      const listings = [];
 
       querySnap.forEach((doc) => {
         return listings.push({
@@ -43,7 +43,6 @@ const Slider = () => {
   if (loading) {
     return <Spinner />
   }
-
 
   return listings && (
     <>
