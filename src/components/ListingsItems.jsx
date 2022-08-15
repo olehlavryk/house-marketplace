@@ -6,7 +6,6 @@ import bathtubIcon from '../assets/svg/bathtubIcon.svg';
 import { normalizePrice } from '../utils';
 
 const ListingsItems = ({ listing, id, onDelete }) => {
-  console.log(listing)
   return (
     <li className="categoryListing">
       <Link

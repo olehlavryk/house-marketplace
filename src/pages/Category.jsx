@@ -17,6 +17,7 @@ import ListingsItems from '../components/ListingsItems';
 function Category() {
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [lastFetchListing, setLastFetchListing] = useState(null);
 
   const params = useParams()
   const categoryName = params.categoryName;
@@ -39,6 +40,10 @@ function Category() {
         // execute query
         const querySnap = await getDocs(q);
 
+        const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+
+        setLastFetchListing(lastVisible);
+
         const listings = [];
 
         querySnap.forEach((doc) => {
@@ -59,6 +64,44 @@ function Category() {
     fetchListings();
   }, [categoryName])
 
+  // Pagination / Load more
+  const onFetchMoreListings = async () => {
+    try {
+      // get reference
+      const listingsRef = collection(db, 'listings');
+
+      // create a query
+      const q = query(
+        listingsRef, where('type', '==', categoryName),
+        orderBy('timestamp', 'desc'),
+        startAfter(lastFetchListing),
+        limit(10)
+      );
+
+      // execute query
+      const querySnap = await getDocs(q);
+
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+
+      setLastFetchListing(lastVisible);
+
+      const listings = [];
+
+      querySnap.forEach((doc) => {
+        return listings.push({
+          id: doc.id,
+          data: doc.data()
+        })
+      })
+
+      // set states
+      setListings((prevState) => [...prevState, ...listings]);
+      setLoading(false);
+    } catch (error) {
+      toast.error('Could not fetch listings');
+    }
+  }
+
   return (
     <div className="category">
       <header>
@@ -78,6 +121,11 @@ function Category() {
                   <ListingsItems listing={listing.data} id={listing.id} key={index} />
                 ))}
               </ul>
+              <br />
+              <br />
+              {lastFetchListing && (
+                <p className="loadMore" onClick={onFetchMoreListings}>Load More</p>
+              )}
             </>
             : <p>No listings for {categoryName}</p>}
       </main>
