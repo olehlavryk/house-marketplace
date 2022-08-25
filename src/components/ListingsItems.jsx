@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { ReactComponent as DeleteIcon } from '../assets/svg/deleteIcon.svg';
+import { ReactComponent as EditIcon } from '../assets/svg/editIcon.svg';
 import bedIcon from '../assets/svg/bedIcon.svg';
 import bathtubIcon from '../assets/svg/bathtubIcon.svg';
 import { normalizePrice } from '../utils';
 
-const ListingsItems = ({ listing, id, onDelete }) => {
+const ListingsItems = ({ listing, id, onEdit, onDelete }) => {
   return (
     <li className="categoryListing">
       <Link
@@ -38,6 +39,7 @@ const ListingsItems = ({ listing, id, onDelete }) => {
             <p className="categoryListingInfoText">
               {listing.bathrooms > 1 ? `${listing.bathrooms} Bathrooms` : '1 Bathroom'}
             </p>
+            {/* todo location */}
           </div>
         </div>
       </Link>
@@ -45,6 +47,11 @@ const ListingsItems = ({ listing, id, onDelete }) => {
         className="removeIcon"
         fill="rgb(231,76,60)"
         onClick={() => onDelete(listing.id, listing.name)}
+      />)}
+      {onEdit && (<EditIcon
+        className="editIcon"
+        fill="rgb(231,76,60)"
+        onClick={() => onEdit(id)}
       />)}
     </li>
   )
