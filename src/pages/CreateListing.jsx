@@ -9,6 +9,7 @@ import Spinner from '../components/Spinner';
 import { toast } from 'react-toastify';
 
 const CreateListing = () => {
+  // eslint-disable-next-line no-unused-vars
   const [geolocationEnabled, setGeolocationEnabled] = useState(false)
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -149,9 +150,6 @@ const CreateListing = () => {
         uploadTask.on(
           'state_changed',
           (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-
             switch (snapshot.state) {
               case 'paused':
                 console.log('Upload is paused')
